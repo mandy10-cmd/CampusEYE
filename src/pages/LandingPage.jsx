@@ -35,9 +35,9 @@ const techStack = [
 
 export default function LandingPage() {
   return (
-    <div className="bg-[#121212] text-white font-sans">
+    <div className="bg-[#121212] text-white font-sans ">
       {/* Hero */}
-      <header className="relative h-[45vh] w-full">
+      <header className="relative h-[50vh] w-full">
         <div className="absolute inset-0">
           <img
             src="/trinetra-hero-bg.jpeg"
@@ -59,20 +59,20 @@ export default function LandingPage() {
       </header>
 
       {/* Features */}
-      <section className="py-20 px-6 max-w-7x1 mx-auto">
+      <section className="py-20 px-16 max-w-7x1 ">
         <h2 className="text-4xl font-bold text-center mb-6">Key Features</h2>
-        <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
+        <p className="text-2xl  text-center mb-15 text-gray-400 ">
           Trinetra offers a suite of features designed to enhance your security and provide peace of mind.
         </p>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((f, i) => (
             <div
               key={i}
-              className="border border-gray-700 rounded-lg p-6 bg-[#1d1d1d] hover:border-blue-500 transition"
+              className="border border-gray-700 rounded-lg p-5 mt-1 bg-[#1d1d1d] hover:border-blue-500 transition"
             >
-              <div className="mb-4 text-blue-400 flex justify-center text-3xl">{f.icon}</div>
-              <h3 className="text-xl font-semibold text-center mb-2">{f.title}</h3>
-              <p className="text-gray-400 text-sm text-center">{f.desc}</p>
+              <div className="mb-4 text-blue-400 flex justify-center mt-6 text-3xl ">{f.icon}</div>
+              <h3 className="text-xl font-semibold text-center mb-6">{f.title}</h3>
+              <p className="text-gray-400 text-sm text-center mb-15">{f.desc}</p>
             </div>
           ))}
         </div>
