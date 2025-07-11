@@ -1,4 +1,12 @@
 /* Reset default margins and paddings */
+@import "tailwindcss";
+@tailwind base;
+@tailwind utilities;
+@tailwind utilities;
+
+body {
+  @apply bg-[#121212] text-white;
+}
 * {
   margin: 0;
   padding: 0;
