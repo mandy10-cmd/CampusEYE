@@ -1,17 +1,13 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import LandingPage from "./pages/LandingPage";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
+import React from 'react';
+import LandingPage from './pages/LandingPage'; // Adjust the path if your LandingPage.jsx is elsewhere
 
-const App = () => {
+function App() {
   return (
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/signin" element={<SignIn />} />
-      <Route path="/signup" element={<SignUp />} />
-    </Routes>
+    // You can add global layouts, headers, footers, or routing here if needed
+    <div className="App">
+      <LandingPage />
+    </div>
   );
-};
+}
 
 export default App;

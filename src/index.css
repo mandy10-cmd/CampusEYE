@@ -1,22 +1,40 @@
-/* Reset default margins and paddings */
-@import "tailwindcss";
+/* Tailwind CSS directives - These MUST come first to generate utilities */
 @tailwind base;
-@tailwind utilities;
+@tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-[#121212] text-white;
-}
+/* Global styles and resets */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Make body take full height */
-html, body, #root {
-  height: 100%;
+html {
+  /* Enables smooth scrolling for anchor links (e.g., #section) */
+  scroll-behavior: smooth;
+}
+
+body {
+  /* Apply dark background and white text globally using Tailwind's @apply */
+  /* Also includes a default sans-serif font stack and antialiasing for smoother text */
+  @apply bg-[#121212] text-white font-sans antialiased;
+  /* Ensures the body takes at least the full height of the viewport */
+  min-height: 100vh;
+  /* A robust font stack for cross-browser and cross-OS consistency */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+/* Ensure the root div where React mounts takes full height */
+#root {
+  min-height: 100vh;
   width: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #fff;
+  /* Using flexbox here can be beneficial if your App component handles the main layout,
+     allowing content to push a footer to the bottom, for example. */
+  display: flex;
+  flex-direction: column;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }

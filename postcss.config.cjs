@@ -1,6 +1,7 @@
+// ✅ Correct version
 module.exports = {
   plugins: {
-    "@tailwindcss/postcss": {}, // ✅ updated
+    tailwindcss: {},
     autoprefixer: {},
   },
-};
+}
