@@ -1,12 +1,16 @@
 import React from 'react';
-import LandingPage from './pages/LandingPage'; // Adjust the path if your LandingPage.jsx is elsewhere
+import { Routes, Route } from 'react-router-dom';
+import TrinetraLanding from './pages/LandingPage';
+import Login from './pages/Login';
+import Signup from './pages/SignUp';
 
 function App() {
   return (
-    // You can add global layouts, headers, footers, or routing here if needed
-    <div className="App">
-      <LandingPage />
-    </div>
+    <Routes>
+      <Route path="/" element={<TrinetraLanding />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+    </Routes>
   );
 }
 

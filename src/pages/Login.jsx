@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Eye, Lock, ChevronRight } from 'lucide-react';
+import { FcGoogle } from 'react-icons/fc'; // Import Google icon (install react-icons if needed)
+import { Link } from 'react-router-dom';
 
-const Signup = () => {
-  const [form, setForm] = useState({ name: '', email: '', password: '' });
+const Login = () => {
+  const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
@@ -10,12 +12,17 @@ const Signup = () => {
   const handleSubmit = e => {
     e.preventDefault();
     // Dummy validation
-    if (!form.name || !form.email || !form.password) {
-      setError('Please fill in all fields.');
+    if (!form.email || !form.password) {
+      setError('Please enter both email and password.');
     } else {
       setError('');
-      // Handle signup logic here
+      // TODO: Handle normal login here
     }
+  };
+
+  const handleGoogleSignIn = () => {
+    // TODO: Connect to Firebase / OAuth here
+    alert('Google Sign-In Clicked!');
   };
 
   return (
@@ -37,29 +44,35 @@ const Signup = () => {
           </div>
         </div>
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-2 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
-          Create Your Account
+          Welcome Back
         </h2>
-        <p className="text-gray-400 text-center mb-6">Sign up to get started with Trinetra</p>
+        <p className="text-gray-400 text-center mb-6">Sign in to your Trinetra account</p>
 
+        {/* Google Sign-In */}
+        <button
+          type="button"
+          onClick={handleGoogleSignIn}
+          className="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium py-3 px-4 rounded-xl transition-all mb-6"
+        >
+          <FcGoogle className="w-5 h-5" />
+          Sign in with Google
+        </button>
+
+        {/* Divider */}
+        <div className="flex items-center gap-4 text-gray-400 mb-6 text-sm">
+          <hr className="flex-1 border-t border-gray-600" />
+          OR
+          <hr className="flex-1 border-t border-gray-600" />
+        </div>
+
+        {/* Error */}
         {error && (
           <div className="mb-4 bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg px-4 py-2 text-sm">
             {error}
           </div>
         )}
 
-        <div className="mb-4">
-          <label className="block text-gray-300 mb-1" htmlFor="name">Name</label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            autoComplete="name"
-            value={form.name}
-            onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-            placeholder="Your Name"
-          />
-        </div>
+        {/* Email Field */}
         <div className="mb-4">
           <label className="block text-gray-300 mb-1" htmlFor="email">Email</label>
           <input
@@ -73,33 +86,38 @@ const Signup = () => {
             placeholder="you@example.com"
           />
         </div>
+
+        {/* Password Field */}
         <div className="mb-6">
           <label className="block text-gray-300 mb-1" htmlFor="password">Password</label>
           <input
             id="password"
             name="password"
             type="password"
-            autoComplete="new-password"
+            autoComplete="current-password"
             value={form.password}
             onChange={handleChange}
             className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
             placeholder="••••••••"
           />
         </div>
+
+        {/* Submit Button */}
         <button
           type="submit"
           className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-3 rounded-xl font-medium transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
         >
-          Sign Up
+          Login
           <ChevronRight className="w-5 h-5" />
         </button>
+
         <div className="mt-6 text-center text-gray-400 text-sm">
-          Already have an account?{' '}
-          <a href="/login" className="text-blue-400 hover:underline">Login</a>
+          Don't have an account?{' '}
+          <Link to="/signup" className="text-blue-400 hover:underline">Sign up</Link>
         </div>
       </form>
     </div>
   );
 };
 
-export default Signup;
+export default Login;

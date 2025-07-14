@@ -1,183 +1,312 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; // Import Link
 import {
-  Video,
-  Upload,
-  Bell,
-  Bot,
-  BarChart3,
-  Archive,
-  Code,
-  Brain,
-  Clock,
-  MessageSquare,
-  Server,
-  Mail,
-  Camera,
-  Menu,
-} from "lucide-react";
+  Eye, Shield, Camera, Activity, Database,
+  Globe, Settings, BarChart3, Code, Cpu,
+  Network, Lock, ChevronRight, Play, Zap,
+  TrendingUp, AlertTriangle, CheckCircle
+} from 'lucide-react';
 
-const features = [
-  { icon: <Video />, title: "Real-time Video Analysis", desc: "Analyze live video feeds in real-time to detect and respond to potential threats." },
-  { icon: <Upload />, title: "Upload Existing Videos", desc: "Upload and analyze existing video footage to identify past security events." },
-  { icon: <Bell />, title: "Instant Alerts", desc: "Receive immediate alerts via email or phone." },
-  { icon: <Bot />, title: "AI-Powered Assistant", desc: "Insights from our AI assistant, powered by advanced language models." },
-  { icon: <BarChart3 />, title: "Intuitive Dashboard", desc: "Easy monitoring of your surveillance system." },
-  { icon: <Archive />, title: "Footage Library", desc: "Securely store and manage surveillance footage." },
-];
+const TrinetraLanding = () => {
+  const [activeAlert, setActiveAlert] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
 
-const techStack = [
-  { icon: <Code />, title: "Frontend", desc: "Next.js, Tailwind CSS" },
-  { icon: <Brain />, title: "AI Processing", desc: "Gemini VLM, TensorFlow.js" },
-  { icon: <Clock />, title: "Real-time Updates", desc: "Canvas API" },
-  { icon: <MessageSquare />, title: "Contextual Assistance", desc: "OpenAI language models" },
-  { icon: <Server />, title: "Backend", desc: "Supabase" },
-  { icon: <Mail />, title: "Email/Phone Service", desc: "Resend API" },
-];
+  useEffect(() => {
+    setIsVisible(true);
+    const interval = setInterval(() => {
+      setActiveAlert((prev) => (prev + 1) % 3);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
-export default function LandingPage() {
+  const alertColors = {
+    red: 'bg-red-500/10 border-red-500/30 text-red-400',
+    yellow: 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400',
+    green: 'bg-green-500/10 border-green-500/30 text-green-400'
+  };
+
   return (
-    <div className="bg-[#121212] text-white font-sans antialiased">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 opacity-30">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-40 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
+      </div>
 
-      {/* ✅ Navigation Bar */}
-      <nav className="fixed top-0 left-0 w-full z-50 bg-[#121212] bg-opacity-90 backdrop-blur-sm shadow-lg">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="text-2xl font-bold text-white">Trinetra</div>
-          <div className="hidden md:flex flex-1 justify-center space-x-8">
-            <a href="#" className="hover:text-blue-400 transition-colors">Home</a>
-            <a href="#features" className="hover:text-blue-400 transition-colors">Features</a>
-            <a href="#dashboard" className="hover:text-blue-400 transition-colors">Dashboard</a>
-            <a href="#contact" className="hover:text-blue-400 transition-colors">Contact</a>
+      {/* Header */}
+      <header className="relative bg-black/40 backdrop-blur-xl border-b border-gray-700/50 top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                <Eye className="w-5 h-5 text-white" />
+              </div>
+              <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Trinetra
+              </span>
+            </div>
+            <nav className="hidden md:flex gap-8 text-sm">
+              {['Home', 'Features', 'Dashboard', 'Contact'].map((item) => (
+                <a key={item} href="#" className="text-gray-300 hover:text-white transition-colors relative group">
+                  {item}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 transition-all group-hover:w-full"></span>
+                </a>
+              ))}
+            </nav>
+            <div className="flex gap-6 mt-2 text-sm">
+              {/* Use Link for navigation */}
+              <Link to="/login" className="text-gray-300 hover:text-white mt-2 transition-colors">Login</Link>
+              <Link
+                to="/signup"
+                className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-4 py-2 rounded-lg font-medium transition-all transform hover:scale-105"
+              >
+                SignUp
+              </Link>
+            </div>
           </div>
-          <div className="hidden md:flex items-center space-x-4">
-            <a href="#" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors">Login</a>
-            <a href="#" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors">Signup</a>
-          </div>
-          <div className="md:hidden">
-            <button className="text-white focus:outline-none">
-              <Menu size={24} />
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* ✅ Hero Section */}
-      <header className="relative h-[60vh] w-full mt-[80px]">
-        <div className="absolute inset-0">
-          <img
-            src="/trinetra-hero-bg.jpeg"
-            alt="Surveillance Camera"
-            className="w-full h-full object-cover object-center brightness-[0.5]"
-          />
-        </div>
-        <div className="relative z-10 h-full flex flex-col justify-center items-center px-4 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight">
-            Trinetra: Vigilance Beyond Sight
-          </h1>
-          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mb-8">
-            Advanced surveillance system for proactive crime detection and enhanced security
-          </p>
-          <button className="bg-blue-600 text-white font-semibold px-8 py-3 rounded-md hover:bg-blue-700 transition-colors duration-300 shadow-lg">
-            Get Started
-          </button>
         </div>
       </header>
 
-      {/* ✅ Features Section */}
-      <section id="features" className="py-20 px-4 md:px-6 lg:px-16 max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Key Features</h2>
-        <p className="text-md md:text-lg text-center mb-12 text-gray-400 max-w-3xl mx-auto">
-          Trinetra offers a suite of features designed to enhance your security and provide peace of mind.
-        </p>
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((f, i) => (
-            <div key={i} className="border border-gray-700 rounded-lg p-6 bg-[#1d1d1d] hover:border-blue-500 transition-all duration-300 transform hover:scale-105">
-              <div className="mb-4 text-blue-400 flex justify-center text-4xl">{f.icon}</div>
-              <h3 className="text-xl font-semibold text-center mb-3">{f.title}</h3>
-              <p className="text-gray-400 text-sm text-center">{f.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ✅ Dashboard Section */}
-      <section id="dashboard" className="py-20 px-4 md:px-6 lg:px-16 max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Dashboard</h2>
-        <div className="bg-[#1d1d1d] rounded-xl p-6 md:p-8 lg:p-10 shadow-xl">
-          <div className="flex flex-col md:flex-row justify-between items-center mb-6 border-b border-gray-700 pb-4">
-            <span className="font-semibold flex items-center text-xl mb-4 md:mb-0">
-              <Camera className="mr-3 text-blue-400" size={24} />
-              Trinetra-AI Dashboard
-            </span>
-            <span className="text-sm bg-gray-800 px-4 py-2 rounded-full text-gray-400">
-              4 Cameras Active
-            </span>
-          </div>
-          <div className="grid lg:grid-cols-[2fr_1fr] gap-8">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Live Camera Feed</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="bg-gray-800 rounded-lg p-4 aspect-video relative flex flex-col items-center justify-center border border-gray-700 overflow-hidden">
-                    <Camera className="h-16 w-16 text-gray-500 mb-2" />
-                    <span className="absolute bottom-2 left-3 text-xs text-gray-400">Camera {i}</span>
-                    <span className="absolute bottom-2 right-3 text-xs text-red-500 font-semibold animate-pulse">Live</span>
-                  </div>
-                ))}
+      {/* Hero Section */}
+      <section className={`relative py-16 md:py-24 px-6 transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+        <div className="max-w-6xl mx-auto">
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 rounded-3xl blur-3xl animate-pulse"></div>
+            <div className="relative bg-black/60 backdrop-blur-2xl rounded-3xl p-8 md:p-16 text-center border border-gray-700/50 shadow-2xl">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full px-4 py-2 mb-6 border border-blue-500/30">
+                <Zap className="w-4 h-4 text-blue-400" />
+                <span className="text-sm text-blue-300">Next-Gen Security Intelligence</span>
+              </div>
+              
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent leading-tight">
+                Trinetra: Vigilance
+                <br />
+                <span className="text-3xl md:text-5xl lg:text-6xl">Beyond Sight</span>
+              </h1>
+              
+              <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+                Advanced surveillance systems powered by AI for proactive threat detection and comprehensive security monitoring
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                {/* Get Started navigates to signup */}
+                <Link
+                  to="/signup"
+                  className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 py-3 rounded-xl font-medium transition-all transform hover:scale-105 shadow-lg flex items-center gap-2 justify-center min-w-[160px]"
+                >
+                  Get Started
+                  <ChevronRight className="w-5 h-5" />
+                </Link>
+                <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white px-8 py-3 rounded-xl font-medium transition-all flex items-center gap-2 justify-center min-w-[160px]">
+                  <Play className="w-5 h-5" />
+                  Watch Demo
+                </button>
               </div>
             </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Recent Alerts</h3>
-              <ul className="space-y-4">
-                {[
-                  { type: "red", label: "Danger Detected - Camera 2", time: "21 June 16:55:40" },
-                  { type: "yellow", label: "Camera Offline - Camera 3", time: "18 June 16:55:40" },
-                  { type: "purple", label: "Power Loss", time: "11 June 16:55:40" },
-                ].map((alert, i) => (
-                  <li key={i} className={`p-4 rounded-lg border text-sm
-                    ${alert.type === 'red' ? 'bg-red-900/20 border-red-600 text-red-300' : ''}
-                    ${alert.type === 'yellow' ? 'bg-yellow-900/20 border-yellow-600 text-yellow-300' : ''}
-                    ${alert.type === 'purple' ? 'bg-purple-900/20 border-purple-600 text-purple-300' : ''}`}>
-                    <div className="font-semibold mb-1">{alert.label}</div>
-                    <div className="text-gray-500 text-xs">{alert.time}</div>
-                  </li>
-                ))}
-              </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Key Features */}
+      <section className="py-16 md:py-20 px-6 relative">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+              Intelligent Security Features
+            </h2>
+            <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
+              Trinetra offers a comprehensive suite of AI-powered features designed to enhance your security and provide unparalleled peace of mind.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { icon: Eye, title: "Real-time Video Analysis", desc: "Advanced AI-powered video processing with real-time threat detection and behavioral analysis capabilities.", color: "from-blue-500 to-cyan-500", bg: "bg-blue-500/10" },
+              { icon: Camera, title: "Upload Existing Videos", desc: "Seamlessly integrate and analyze existing video footage with intelligent processing and insights.", color: "from-green-500 to-emerald-500", bg: "bg-green-500/10" },
+              { icon: Shield, title: "Threat Alerts", desc: "Instant notifications for suspicious activities with customizable alert thresholds and responses.", color: "from-red-500 to-pink-500", bg: "bg-red-500/10" },
+              { icon: Activity, title: "AI-Powered Assistant", desc: "Intelligent virtual assistant that learns from patterns and provides actionable security insights.", color: "from-purple-500 to-indigo-500", bg: "bg-purple-500/10" },
+              { icon: Database, title: "Intuitive Dashboard", desc: "User-friendly interface with real-time analytics and comprehensive security monitoring tools.", color: "from-cyan-500 to-blue-500", bg: "bg-cyan-500/10" },
+              { icon: Globe, title: "Advanced Library", desc: "Extensive collection of pre-trained models and algorithms for various security scenarios.", color: "from-orange-500 to-yellow-500", bg: "bg-orange-500/10" },
+            ].map(({ icon: Icon, title, desc, color, bg }, i) => (
+              <div key={i} className={`${bg} backdrop-blur-sm p-6 rounded-2xl border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl group`}>
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${color} p-3 mb-4 group-hover:scale-110 transition-transform`}>
+                  <Icon className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2 text-white">{title}</h3>
+                <p className="text-gray-300 text-sm leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Dashboard Preview */}
+      <section className="py-16 md:py-20 px-6 relative">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+              Live Security Dashboard
+            </h2>
+            <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
+              Monitor your security in real-time with our intuitive dashboard interface
+            </p>
+          </div>
+
+          <div className="bg-black/40 backdrop-blur-xl p-6 md:p-8 rounded-3xl border border-gray-700/50 shadow-2xl">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
+              <div>
+                <h3 className="text-xl md:text-2xl font-semibold mb-2">Live Camera Feed</h3>
+                <p className="text-gray-400">Real-time monitoring across all locations</p>
+              </div>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <span className="text-green-400 font-medium">4 Cameras Active</span>
+                </div>
+                <div className="flex gap-2">
+                  <div className="p-2 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors cursor-pointer">
+                    <Settings className="w-5 h-5 text-gray-400 hover:text-white" />
+                  </div>
+                  <div className="p-2 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors cursor-pointer">
+                    <BarChart3 className="w-5 h-5 text-gray-400 hover:text-white" />
+                  </div>
+                  <div className="p-2 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors cursor-pointer">
+                    <Lock className="w-5 h-5 text-gray-400 hover:text-white" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+              {Array(4).fill(0).map((_, i) => (
+                <div key={i} className="bg-gray-800/50 backdrop-blur-sm h-32 md:h-40 rounded-2xl flex flex-col justify-center items-center border border-gray-700/30 hover:border-gray-600/50 transition-all group">
+                  <Camera className="w-12 h-12 text-gray-500 group-hover:text-gray-400 transition-colors mb-2" />
+                  <span className="text-gray-400 text-sm">Camera {i + 1}</span>
+                  <div className="mt-2 flex items-center gap-2">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="text-green-400 text-xs">Live</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="space-y-3">
+              <h4 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-blue-400" />
+                Recent Activity
+              </h4>
+              {[
+                { type: "Threat Detected", cam: "Camera 1", desc: "Suspicious activity detected at main entrance", time: "2 min ago", color: "red", icon: AlertTriangle },
+                { type: "Motion Alert", cam: "Camera 3", desc: "Movement detected in restricted area", time: "5 min ago", color: "yellow", icon: Activity },
+                { type: "All Clear", cam: "Camera 2", desc: "No threats detected, area secure", time: "1 hour ago", color: "green", icon: CheckCircle },
+              ].map(({ type, cam, desc, time, color, icon: Icon }, i) => (
+                <div key={i} className={`${alertColors[color]} rounded-xl p-4 border transition-all hover:shadow-lg ${activeAlert === i ? 'ring-2 ring-current' : ''}`}>
+                  <div className="flex items-start gap-3">
+                    <div className={`p-2 rounded-lg ${color === 'red' ? 'bg-red-500/20' : color === 'yellow' ? 'bg-yellow-500/20' : 'bg-green-500/20'}`}>
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-start mb-1">
+                        <h5 className="font-medium text-sm">{type} - {cam}</h5>
+                        <span className="text-xs opacity-75 whitespace-nowrap ml-2">{time}</span>
+                      </div>
+                      <p className="text-xs opacity-90">{desc}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ✅ Tech Stack Section */}
-      <section className="py-20 px-4 md:px-6 lg:px-16 max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Tech Stack</h2>
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {techStack.map((tech, i) => (
-            <div key={i} className="border border-gray-700 rounded-lg p-6 bg-[#1d1d1d] hover:border-blue-500 transition-all duration-300 transform hover:scale-105 text-center">
-              <div className="text-blue-400 mb-4 text-4xl flex justify-center">{tech.icon}</div>
-              <h3 className="font-semibold text-xl mb-2">{tech.title}</h3>
-              <p className="text-gray-400 text-sm">{tech.desc}</p>
-            </div>
-          ))}
+      {/* Tech Stack */}
+      <section className="py-16 md:py-20 px-6 relative">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+              Powered by Advanced Technology
+            </h2>
+            <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
+              Built on cutting-edge AI and machine learning technologies for maximum security and performance
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { icon: Cpu, title: "AI Processing", desc: "Advanced AI algorithms with machine learning capabilities for intelligent threat detection", color: "from-blue-500 to-cyan-500", bg: "bg-blue-500/10" },
+              { icon: Network, title: "Deep Learning", desc: "Neural networks for pattern recognition and behavioral analysis", color: "from-purple-500 to-indigo-500", bg: "bg-purple-500/10" },
+              { icon: Activity, title: "Real-time Updates", desc: "Live data processing and instant notifications across all devices", color: "from-green-500 to-emerald-500", bg: "bg-green-500/10" },
+              { icon: Eye, title: "Computer Vision", desc: "Advanced image and video processing capabilities with object detection", color: "from-cyan-500 to-blue-500", bg: "bg-cyan-500/10" },
+              { icon: Database, title: "Scalable Backend", desc: "Cloud-native architecture designed for high performance and reliability", color: "from-orange-500 to-yellow-500", bg: "bg-orange-500/10" },
+              { icon: BarChart3, title: "Analytics Engine", desc: "Comprehensive data visualization and intelligent reporting systems", color: "from-red-500 to-pink-500", bg: "bg-red-500/10" },
+            ].map(({ icon: Icon, title, desc, color, bg }, i) => (
+              <div key={i} className={`${bg} backdrop-blur-sm p-6 rounded-2xl border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300 transform hover:scale-105 group`}>
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${color} p-3 mb-4 group-hover:scale-110 transition-transform`}>
+                  <Icon className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2 text-white">{title}</h3>
+                <p className="text-gray-300 text-sm leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ✅ Footer / Contact Section */}
-      <footer id="contact" className="bg-[#121212] text-gray-400 py-12 px-4 md:px-6 lg:px-16 text-center">
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-white mb-2">Contact Us</h2>
-          <p>
-            Have Questions or Need any Assistance? Reach us at{" "}
-            <a href="mailto:support@trinetraai.com" className="text-blue-400 hover:underline">
-              support@trinetraai.com
-            </a>
-          </p>
+      {/* CTA Section */}
+      <section className="py-16 md:py-20 px-6 relative">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 rounded-3xl p-8 md:p-12 backdrop-blur-xl border border-gray-700/50">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+              Ready to Transform Your Security?
+            </h2>
+            <p className="text-lg md:text-xl text-gray-300 mb-6 max-w-2xl mx-auto">
+              Join thousands of organizations who trust Trinetra for their security needs
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              {/* Start Free Trial navigates to signup */}
+              <Link
+                to="/signup"
+                className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 py-3 rounded-xl font-medium transition-all transform hover:scale-105 shadow-lg min-w-[160px]"
+              >
+                Start Free Trial
+              </Link>
+              <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white px-8 py-3 rounded-xl font-medium transition-all min-w-[160px]">
+                Schedule Demo
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="flex justify-center space-x-8 mb-4 text-sm">
-          <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-          <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-black/60 backdrop-blur-xl border-t border-gray-700/50 py-12">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                <Eye className="w-5 h-5 text-white" />
+              </div>
+              <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Trinetra
+              </span>
+            </div>
+            <div className="flex gap-8 text-sm">
+              {['Privacy Policy', 'Terms of Service', 'Contact Us', 'Support'].map((item) => (
+                <a key={item} href="#" className="text-gray-400 hover:text-white transition-colors">
+                  {item}
+                </a>
+              ))}
+            </div>
+          </div>
+          <div className="mt-8 pt-8 border-t border-gray-700/50 text-center text-gray-400">
+            <p>© 2025 Trinetra. All rights reserved. Securing the future with intelligent surveillance.</p>
+          </div>
         </div>
-        <p className="text-xs text-gray-500">© 2025 Trinetra. All rights reserved.</p>
       </footer>
     </div>
   );
-}
+};
+
+export default TrinetraLanding;
