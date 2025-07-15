@@ -39,7 +39,7 @@ const Signup = () => {
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-2 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
           Create Your Account
         </h2>
-        <p className="text-gray-400 text-center mb-6">Sign up to get started with Trinetra</p>
+        <p className="text-gray-400 text-center mb-6">Sign up to get started with TrinetraAI</p>
 
         {error && (
           <div className="mb-4 bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg px-4 py-2 text-sm">
