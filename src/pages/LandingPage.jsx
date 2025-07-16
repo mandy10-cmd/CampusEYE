@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Import Link
 import {
   Eye, Shield, Camera, Activity, Database,
   Globe, Settings, BarChart3, Code, Cpu,
@@ -26,8 +25,8 @@ const TrinetraLanding = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white overflow-hidden">
-      {/* Animated Background */}
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white overflow-hidden scroll-smooth">
+      {/* Background Blobs */}
       <div className="fixed inset-0 opacity-30">
         <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-40 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
@@ -35,7 +34,7 @@ const TrinetraLanding = () => {
       </div>
 
       {/* Header */}
-      <header className="relative bg-black/40 backdrop-blur-xl border-b border-gray-700/50 top-0 z-50">
+      <header className="relative bg-black/40 backdrop-blur-xl border-b border-gray-700/50 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2">
@@ -48,68 +47,57 @@ const TrinetraLanding = () => {
             </div>
             <nav className="hidden md:flex gap-8 text-sm">
               {['Home', 'Features', 'Dashboard', 'Contact'].map((item) => (
-                <a key={item} href="#" className="text-gray-300 hover:text-white transition-colors relative group">
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  className="text-gray-300 hover:text-white transition-colors relative group"
+                >
                   {item}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 transition-all group-hover:w-full"></span>
                 </a>
               ))}
             </nav>
-            <div className="flex gap-6 mt-2 text-sm">
-              {/* Use Link for navigation */}
-              <Link to="/login" className="text-gray-300 hover:text-white mt-2 transition-colors">Login</Link>
-              <Link
-                to="/signup"
-                className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-4 py-2 rounded-lg font-medium transition-all transform hover:scale-105"
-              >
+            <div className="flex gap-4 text-sm">
+              <button className="text-gray-300 hover:text-white transition-colors">Login</button>
+              <button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-4 py-2 rounded-lg font-medium transition-all transform hover:scale-105">
                 SignUp
-              </Link>
+              </button>
             </div>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className={`relative py-16 md:py-24 px-6 transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-        <div className="max-w-6xl mx-auto">
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 rounded-3xl blur-3xl animate-pulse"></div>
-            <div className="relative bg-black/60 backdrop-blur-2xl rounded-3xl p-8 md:p-16 text-center border border-gray-700/50 shadow-2xl">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full px-4 py-2 mb-6 border border-blue-500/30">
-                <Zap className="w-4 h-4 text-blue-400" />
-                <span className="text-sm text-blue-300">Next-Gen Security Intelligence</span>
-              </div>
-              
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent leading-tight">
-                Trinetra: Vigilance
-                <br />
-                <span className="text-3xl md:text-5xl lg:text-6xl">Beyond Sight</span>
-              </h1>
-              
-              <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
-                Advanced surveillance systems powered by AI for proactive threat detection and comprehensive security monitoring
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                {/* Get Started navigates to signup */}
-                <Link
-                  to="/signup"
-                  className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 py-3 rounded-xl font-medium transition-all transform hover:scale-105 shadow-lg flex items-center gap-2 justify-center min-w-[160px]"
-                >
-                  Get Started
-                  <ChevronRight className="w-5 h-5" />
-                </Link>
-                <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white px-8 py-3 rounded-xl font-medium transition-all flex items-center gap-2 justify-center min-w-[160px]">
-                  <Play className="w-5 h-5" />
-                  Watch Demo
-                </button>
-              </div>
+      <section id="home" className={`relative py-16 md:py-24 px-6 transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="relative bg-black/60 backdrop-blur-2xl rounded-3xl p-8 md:p-16 border border-gray-700/50 shadow-2xl">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full px-4 py-2 mb-6 border border-blue-500/30">
+              <Zap className="w-4 h-4 text-blue-400" />
+              <span className="text-sm text-blue-300">Next-Gen Security Intelligence</span>
+            </div>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent leading-tight">
+              Trinetra: Vigilance<br />
+              <span className="text-3xl md:text-5xl lg:text-6xl">Beyond Sight</span>
+            </h1>
+            <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+              Advanced surveillance systems powered by AI for proactive threat detection and comprehensive security monitoring
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 py-3 rounded-xl font-medium transition-all transform hover:scale-105 shadow-lg flex items-center gap-2 min-w-[160px]">
+                Get Started
+                <ChevronRight className="w-5 h-5" />
+              </button>
+              <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white px-8 py-3 rounded-xl font-medium transition-all flex items-center gap-2 min-w-[160px]">
+                <Play className="w-5 h-5" />
+                Watch Demo
+              </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Key Features */}
-      <section className="py-16 md:py-20 px-6 relative">
+      {/* Features */}
+      <section id="features" className="py-16 md:py-20 px-6 relative">
         <div className="max-w-6xl mx-auto">
           <div className="mb-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
@@ -119,7 +107,6 @@ const TrinetraLanding = () => {
               Trinetra offers a comprehensive suite of AI-powered features designed to enhance your security and provide unparalleled peace of mind.
             </p>
           </div>
-
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               { icon: Eye, title: "Real-time Video Analysis", desc: "Advanced AI-powered video processing with real-time threat detection and behavioral analysis capabilities.", color: "from-blue-500 to-cyan-500", bg: "bg-blue-500/10" },
@@ -141,12 +128,12 @@ const TrinetraLanding = () => {
         </div>
       </section>
 
-      {/* Dashboard Preview */}
-      <section className="py-16 md:py-20 px-6 relative">
+      {/* Dashboard */}
+      <section id="dashboard" className="py-16 md:py-20 px-6 relative">
         <div className="max-w-6xl mx-auto">
           <div className="mb-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-              Live Security Dashboard
+              Security Dashboard
             </h2>
             <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
               Monitor your security in real-time with our intuitive dashboard interface
@@ -165,15 +152,11 @@ const TrinetraLanding = () => {
                   <span className="text-green-400 font-medium">4 Cameras Active</span>
                 </div>
                 <div className="flex gap-2">
-                  <div className="p-2 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors cursor-pointer">
-                    <Settings className="w-5 h-5 text-gray-400 hover:text-white" />
-                  </div>
-                  <div className="p-2 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors cursor-pointer">
-                    <BarChart3 className="w-5 h-5 text-gray-400 hover:text-white" />
-                  </div>
-                  <div className="p-2 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors cursor-pointer">
-                    <Lock className="w-5 h-5 text-gray-400 hover:text-white" />
-                  </div>
+                  {[Settings, BarChart3, Lock].map((Icon, i) => (
+                    <div key={i} className="p-2 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors cursor-pointer">
+                      <Icon className="w-5 h-5 text-gray-400 hover:text-white" />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -221,41 +204,8 @@ const TrinetraLanding = () => {
         </div>
       </section>
 
-      {/* Tech Stack */}
-      <section className="py-16 md:py-20 px-6 relative">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-              Powered by Advanced Technology
-            </h2>
-            <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
-              Built on cutting-edge AI and machine learning technologies for maximum security and performance
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { icon: Cpu, title: "AI Processing", desc: "Advanced AI algorithms with machine learning capabilities for intelligent threat detection", color: "from-blue-500 to-cyan-500", bg: "bg-blue-500/10" },
-              { icon: Network, title: "Deep Learning", desc: "Neural networks for pattern recognition and behavioral analysis", color: "from-purple-500 to-indigo-500", bg: "bg-purple-500/10" },
-              { icon: Activity, title: "Real-time Updates", desc: "Live data processing and instant notifications across all devices", color: "from-green-500 to-emerald-500", bg: "bg-green-500/10" },
-              { icon: Eye, title: "Computer Vision", desc: "Advanced image and video processing capabilities with object detection", color: "from-cyan-500 to-blue-500", bg: "bg-cyan-500/10" },
-              { icon: Database, title: "Scalable Backend", desc: "Cloud-native architecture designed for high performance and reliability", color: "from-orange-500 to-yellow-500", bg: "bg-orange-500/10" },
-              { icon: BarChart3, title: "Analytics Engine", desc: "Comprehensive data visualization and intelligent reporting systems", color: "from-red-500 to-pink-500", bg: "bg-red-500/10" },
-            ].map(({ icon: Icon, title, desc, color, bg }, i) => (
-              <div key={i} className={`${bg} backdrop-blur-sm p-6 rounded-2xl border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300 transform hover:scale-105 group`}>
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${color} p-3 mb-4 group-hover:scale-110 transition-transform`}>
-                  <Icon className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2 text-white">{title}</h3>
-                <p className="text-gray-300 text-sm leading-relaxed">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 md:py-20 px-6 relative">
+      {/* Contact (CTA) */}
+      <section id="contact" className="py-16 md:py-20 px-6 relative">
         <div className="max-w-4xl mx-auto text-center">
           <div className="bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 rounded-3xl p-8 md:p-12 backdrop-blur-xl border border-gray-700/50">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
@@ -265,13 +215,9 @@ const TrinetraLanding = () => {
               Join thousands of organizations who trust Trinetra for their security needs
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              {/* Start Free Trial navigates to signup */}
-              <Link
-                to="/signup"
-                className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 py-3 rounded-xl font-medium transition-all transform hover:scale-105 shadow-lg min-w-[160px]"
-              >
+              <button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 py-3 rounded-xl font-medium transition-all transform hover:scale-105 shadow-lg min-w-[160px]">
                 Start Free Trial
-              </Link>
+              </button>
               <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white px-8 py-3 rounded-xl font-medium transition-all min-w-[160px]">
                 Schedule Demo
               </button>
