@@ -26,7 +26,7 @@ const TrinetraLanding = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white overflow-hidden scroll-smooth">
       {/* Animated Background */}
       <div className="fixed inset-0 opacity-30">
         <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
@@ -47,16 +47,23 @@ const TrinetraLanding = () => {
               </span>
             </div>
             <nav className="hidden md:flex gap-8 text-sm">
-              {['Home', 'Features', 'Dashboard', 'Contact'].map((item) => (
-                <a key={item} href="#" className="text-gray-300 hover:text-white transition-colors relative group">
-                  {item}
+             <Link to="/" className="text-gray-300 hover:text-white transition-colors relative group">
+                  Home
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 transition-all group-hover:w-full"></span>
+             </Link>
+              <Link to="/dashboard" className="text-gray-300 hover:text-white transition-colors relative group">
+                  Dashboard
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 transition-all group-hover:w-full"></span>
+              </Link>
+                <a href="#contact" className="text-gray-300 hover:text-white transition-colors relative group">
+                  Contact
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 transition-all group-hover:w-full"></span>
                 </a>
-              ))}
             </nav>
             <div className="flex gap-6 mt-2 text-sm">
               {/* Use Link for navigation */}
               <Link to="/login" className="text-gray-300 hover:text-white mt-2 transition-colors">Login</Link>
+              
               <Link
                 to="/signup"
                 className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-4 py-2 rounded-lg font-medium transition-all transform hover:scale-105"
@@ -108,38 +115,7 @@ const TrinetraLanding = () => {
         </div>
       </section>
 
-      {/* Key Features */}
-      <section className="py-16 md:py-20 px-6 relative">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-              Intelligent Security Features
-            </h2>
-            <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
-              Trinetra offers a comprehensive suite of AI-powered features designed to enhance your security and provide unparalleled peace of mind.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { icon: Eye, title: "Real-time Video Analysis", desc: "Advanced AI-powered video processing with real-time threat detection and behavioral analysis capabilities.", color: "from-blue-500 to-cyan-500", bg: "bg-blue-500/10" },
-              { icon: Camera, title: "Upload Existing Videos", desc: "Seamlessly integrate and analyze existing video footage with intelligent processing and insights.", color: "from-green-500 to-emerald-500", bg: "bg-green-500/10" },
-              { icon: Shield, title: "Threat Alerts", desc: "Instant notifications for suspicious activities with customizable alert thresholds and responses.", color: "from-red-500 to-pink-500", bg: "bg-red-500/10" },
-              { icon: Activity, title: "AI-Powered Assistant", desc: "Intelligent virtual assistant that learns from patterns and provides actionable security insights.", color: "from-purple-500 to-indigo-500", bg: "bg-purple-500/10" },
-              { icon: Database, title: "Intuitive Dashboard", desc: "User-friendly interface with real-time analytics and comprehensive security monitoring tools.", color: "from-cyan-500 to-blue-500", bg: "bg-cyan-500/10" },
-              { icon: Globe, title: "Advanced Library", desc: "Extensive collection of pre-trained models and algorithms for various security scenarios.", color: "from-orange-500 to-yellow-500", bg: "bg-orange-500/10" },
-            ].map(({ icon: Icon, title, desc, color, bg }, i) => (
-              <div key={i} className={`${bg} backdrop-blur-sm p-6 rounded-2xl border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl group`}>
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${color} p-3 mb-4 group-hover:scale-110 transition-transform`}>
-                  <Icon className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2 text-white">{title}</h3>
-                <p className="text-gray-300 text-sm leading-relaxed">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* Dashboard Preview */}
       <section className="py-16 md:py-20 px-6 relative">
