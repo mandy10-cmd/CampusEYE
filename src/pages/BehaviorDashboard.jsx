@@ -34,7 +34,7 @@ const alerts = [
     type: "All Clear",
     desc: "Normal student behavior in monitored areas.",
     camera: "All Zones",
-    time: "1 hour ago",
+    time: "9 hour ago",
     status: "N/A",
     level: "safe",
   },
