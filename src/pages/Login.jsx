@@ -1,28 +1,66 @@
 import React, { useState } from 'react';
 import { Eye, Lock, ChevronRight } from 'lucide-react';
-import { FcGoogle } from 'react-icons/fc'; // Import Google icon (install react-icons if needed)
-import { Link } from 'react-router-dom';
+import { FcGoogle } from 'react-icons/fc';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Dummy validation
     if (!form.email || !form.password) {
       setError('Please enter both email and password.');
-    } else {
-      setError('');
-      // TODO: Handle normal login here
+      return;
+    }
+
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/user/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: form.email,
+          password: form.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Handle backend errors (adjust error path as needed)
+        const errorMsg = data?.errors?.non_field_errors?.[0] || 'Login failed. Check your email and password.';
+        throw new Error(errorMsg);
+      }
+
+      // Extract tokens (adjust based on actual response structure)
+      const { access, refresh } = data.token;
+      localStorage.setItem('access_token', access);
+      localStorage.setItem('refresh_token', refresh);
+
+      // Redirect on success
+      navigate('/dashboard');
+    } catch (err) {
+      console.error('Login error:', err);
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  // Google Sign-In (tbd in future)
   const handleGoogleSignIn = () => {
-    // TODO: Connect to Firebase / OAuth here
-    alert('Google Sign-In Clicked!');
+    alert('Google Sign-In not yet implemented.');
   };
 
   return (
@@ -53,6 +91,7 @@ const Login = () => {
           type="button"
           onClick={handleGoogleSignIn}
           className="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium py-3 px-4 rounded-xl transition-all mb-6"
+          disabled={isLoading}
         >
           <FcGoogle className="w-5 h-5" />
           Sign in with Google
@@ -84,6 +123,7 @@ const Login = () => {
             onChange={handleChange}
             className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             placeholder="you@example.com"
+            disabled={isLoading}
           />
         </div>
 
@@ -99,15 +139,19 @@ const Login = () => {
             onChange={handleChange}
             className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
             placeholder="••••••••"
+            disabled={isLoading}
           />
         </div>
 
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-3 rounded-xl font-medium transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
+          className={`w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-3 rounded-xl font-medium transition-all shadow-lg flex items-center justify-center gap-2 ${
+            isLoading ? 'opacity-70 cursor-not-allowed' : 'transform hover:scale-105'
+          }`}
+          disabled={isLoading}
         >
-          Login
+          {isLoading ? 'Logging in...' : 'Login'}
           <ChevronRight className="w-5 h-5" />
         </button>
 
