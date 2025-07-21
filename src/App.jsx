@@ -1,4 +1,3 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import TrinetraLanding from './pages/LandingPage';
 import Login from './pages/Login';
@@ -11,7 +10,7 @@ function App() {
       <Route path="/" element={<TrinetraLanding />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/Dashboard" element={<BehaviorDashboard />} />
+      <Route path="/dashboard" element={<BehaviorDashboard />} />
     </Routes>
   );
 }
