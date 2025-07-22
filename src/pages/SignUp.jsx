@@ -42,39 +42,68 @@ const Signup = () => {
         <p className="text-gray-400 text-center mb-6">Sign up to get started with TrinetraAI</p>
 
         {error && (
-          <div className="mb-4 bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg px-4 py-2 text-sm">
+          <div className="mb-3 bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg px-4 py-2 text-sm">
             {error}
           </div>
         )}
 
-        <div className="mb-4">
-          <label className="block text-gray-300 mb-1" htmlFor="name">Name</label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            autoComplete="name"
-            value={form.name}
-            onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-            placeholder="Your Name"
-          />
+        <div className="flex gap-4 mb-3">
+          <div className="w-1/2">
+            <label className="flex text-gray-300 mb-1" htmlFor="firstName">First Name</label>
+            <input
+              id="firstName"
+              name="firstName"
+              type="text"
+              autoComplete="given-name"
+              value={form.firstName}
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              placeholder="First Name"
+            />
+          </div>
+
+          <div className="w-1/2">
+            <label className="flex text-gray-300 mb-1" htmlFor="lastName">Last Name</label>
+            <input
+              id="lastName"
+              name="lastName"
+              type="text"
+              autoComplete="family-name"
+              value={form.lastName}
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              placeholder="Last Name"
+            />
+          </div>
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-300 mb-1" htmlFor="email">Email</label>
+        <div className="mb-3">
+          <label className="block text-gray-300 mb-1" htmlFor='text'>College Name</label>
           <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            value={form.email}
+            id="text"
+            name="text"
+            type="text"
+            autoComplete="text"
+            value={form.text}
             onChange={handleChange}
             className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-            placeholder="you@example.com"
+            placeholder="Enter your College name"
           />
         </div>
         <div className="mb-6">
           <label className="block text-gray-300 mb-1" htmlFor="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autoComplete="new-password"
+            value={form.password}
+            onChange={handleChange}
+            className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+            placeholder="••••••••"
+          />
+        </div>
+         <div className="mb-6">
+          <label className="block text-gray-300 mb-1" htmlFor="password">Confirm Password</label>
           <input
             id="password"
             name="password"
