@@ -1,30 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MailCheck, ShieldCheck } from "lucide-react";
+import { sendVerificationCode, verifyCode } from "../api"; // Ensure correct relative path
 
 const EmailVerification = () => {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
-  const [step, setStep] = useState("enterEmail"); // or "enterCode"
+  const [step, setStep] = useState("enterEmail"); // "enterCode"
   const [verifying, setVerifying] = useState(false);
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-
-  const dummyVerificationCode = "123456";
-
-  const sendCodeAPI = () =>
-    new Promise((resolve) => {
-      console.log(`📤 Sending code "${dummyVerificationCode}" to: ${email}`);
-      setTimeout(resolve, 1000); // simulate delay
-    });
-
-  const verifyCodeAPI = () =>
-    new Promise((resolve, reject) => {
-      setTimeout(() => {
-        code === dummyVerificationCode ? resolve() : reject(new Error("Invalid code"));
-      }, 1000);
-    });
 
   const handleSendCode = async () => {
     if (!email || !email.includes("@")) {
@@ -35,10 +21,10 @@ const EmailVerification = () => {
     setError("");
     setVerifying(true);
     try {
-      await sendCodeAPI();
+      await sendVerificationCode(email);
       setStep("enterCode");
     } catch (err) {
-      setError("Failed to send code. Please try again.");
+      setError(err.message || "Failed to send code. Please try again.");
     } finally {
       setVerifying(false);
     }
@@ -53,14 +39,13 @@ const EmailVerification = () => {
     setError("");
     setVerifying(true);
     try {
-      await verifyCodeAPI();
-      // Reset state and navigate
+      await verifyCode(email, code);
       setEmail("");
       setCode("");
       setStep("enterEmail");
-      navigate("/signup");
+      navigate("/signup", { state: { email } }); // Optional: pass email to signup
     } catch (err) {
-      setError("The code you entered is incorrect.");
+      setError(err.message || "Verification failed. Please try again.");
     } finally {
       setVerifying(false);
     }
@@ -143,7 +128,6 @@ const EmailVerification = () => {
         <button
           className="block w-full mt-4 text-sm text-gray-400 underline text-center"
           onClick={() => {
-            // Reset and go back
             setStep("enterEmail");
             setEmail("");
             setCode("");

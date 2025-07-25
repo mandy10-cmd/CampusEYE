@@ -48,7 +48,6 @@ const TrinetraLanding = () => {
             </span>
           </div>
 
-          {/* Desktop Nav */}
           <nav className="hidden md:flex gap-8 text-sm">
             <Link to="/" className="text-gray-300 hover:text-white transition relative group">
               Home
@@ -60,7 +59,6 @@ const TrinetraLanding = () => {
             </Link>
           </nav>
 
-          {/* Buttons */}
           <div className="flex gap-4 text-sm">
             <Link to="/login" className="text-gray-300 hover:text-white mt-1 transition-colors">Login</Link>
             <button
