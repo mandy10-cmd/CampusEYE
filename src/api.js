@@ -1,5 +1,5 @@
 // src/api.js
-const API_URL = "http://127.0.0.1:8000/api/user"; // Adjust if needed
+const API_URL = "https://campuseye-backend.onrender.com/api/user"; // Adjust if needed
 
 export const sendVerificationCode = async (email) => {
   const response = await fetch(`${API_URL}/sendcode/`, {
