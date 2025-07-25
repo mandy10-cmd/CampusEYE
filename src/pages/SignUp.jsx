@@ -1,20 +1,78 @@
 import React, { useState } from 'react';
 import { Eye, Lock, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
-  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const navigate = useNavigate();
+
+  // Form state
+  const [form, setForm] = useState({
+    firstName: '',
+    lastName: '',
+    text: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+
+  // Modal logic states
+  const [step, setStep] = useState('enterEmail'); // 'enterEmail' | 'enterCode'
+  const [code, setCode] = useState('');
+  const [verifying, setVerifying] = useState(false);
   const [error, setError] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
-  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+  const dummyVerificationCode = '123456';
 
-  const handleSubmit = e => {
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
+
+  // Fake APIs
+  const sendCodeAPI = () =>
+    new Promise((res) => {
+      console.log(`✅ Code ${dummyVerificationCode} sent to:`, form.email);
+      setTimeout(res, 1000);
+    });
+
+  const verifyCodeAPI = () =>
+    new Promise((res, rej) => {
+      setTimeout(() => {
+        code === dummyVerificationCode ? res() : rej(new Error('Invalid verification code'));
+      }, 1000);
+    });
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Dummy validation
-    if (!form.name || !form.email || !form.password) {
+    const { firstName, lastName, text, email, password, confirmPassword } = form;
+
+    if (!firstName || !lastName || !text || !email || !password || !confirmPassword) {
       setError('Please fill in all fields.');
-    } else {
-      setError('');
-      // Handle signup logic here
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    setError('');
+    setShowModal(true); // Open modal for email verification
+    await sendCodeAPI();
+    setStep('enterCode');
+  };
+
+  const handleVerifyCode = async () => {
+    setVerifying(true);
+    setError('');
+    try {
+      await verifyCodeAPI();
+      alert('🎉 Account successfully verified!');
+      setShowModal(false);
+      navigate('/dashboard'); // Adjust as needed
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setVerifying(false);
     }
   };
 
@@ -39,10 +97,10 @@ const Signup = () => {
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-2 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
           Create Your Account
         </h2>
-        <p className="text-gray-400 text-center mb-6">Sign up to get started with TrinetraAI</p>
+        <p className="text-gray-400 text-center mb-6">Sign up to get started with CampusEye</p>
 
         {error && (
-          <div className="mb-3 bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg px-4 py-2 text-sm">
+          <div className="mb-4 bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg px-4 py-2 text-sm">
             {error}
           </div>
         )}
@@ -57,11 +115,10 @@ const Signup = () => {
               autoComplete="given-name"
               value={form.firstName}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
               placeholder="First Name"
+              className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white"
             />
           </div>
-
           <div className="w-1/2">
             <label className="flex text-gray-300 mb-1" htmlFor="lastName">Last Name</label>
             <input
@@ -71,50 +128,63 @@ const Signup = () => {
               autoComplete="family-name"
               value={form.lastName}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
               placeholder="Last Name"
+              className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white"
             />
           </div>
         </div>
+
         <div className="mb-3">
-          <label className="block text-gray-300 mb-1" htmlFor='text'>College Name</label>
+          <label className="block text-gray-300 mb-1" htmlFor="text">College Name</label>
           <input
             id="text"
             name="text"
             type="text"
-            autoComplete="text"
             value={form.text}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             placeholder="Enter your College name"
+            className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white"
           />
         </div>
-        <div className="mb-6">
+
+        <div className="mb-3">
+          <label className="block text-gray-300 mb-1" htmlFor="email">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value={form.email}
+            onChange={handleChange}
+            placeholder="Enter your email"
+            className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white"
+          />
+        </div>
+
+        <div className="mb-3">
           <label className="block text-gray-300 mb-1" htmlFor="password">Password</label>
           <input
             id="password"
             name="password"
             type="password"
-            autoComplete="new-password"
             value={form.password}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
             placeholder="••••••••"
+            className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white"
           />
         </div>
-         <div className="mb-6">
-          <label className="block text-gray-300 mb-1" htmlFor="password">Confirm Password</label>
+        <div className="mb-6">
+          <label className="block text-gray-300 mb-1" htmlFor="confirmPassword">Confirm Password</label>
           <input
-            id="password"
-            name="password"
+            id="confirmPassword"
+            name="confirmPassword"
             type="password"
-            autoComplete="new-password"
-            value={form.password}
+            value={form.confirmPassword}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
             placeholder="••••••••"
+            className="w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white"
           />
         </div>
+
         <button
           type="submit"
           className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-3 rounded-xl font-medium transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
@@ -122,11 +192,60 @@ const Signup = () => {
           Sign Up
           <ChevronRight className="w-5 h-5" />
         </button>
+
         <div className="mt-6 text-center text-gray-400 text-sm">
           Already have an account?{' '}
           <a href="/login" className="text-blue-400 hover:underline">Login</a>
         </div>
       </form>
+
+      {/* ✅ Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
+          <div className="bg-gray-900 border border-gray-700 p-6 rounded-2xl w-full max-w-md shadow-lg relative">
+            <h3 className="text-lg font-semibold text-white mb-4">
+              {step === 'enterEmail' ? 'Verify Your Email' : 'Enter Verification Code'}
+            </h3>
+
+            {step === 'enterCode' && (
+              <>
+                <p className="text-sm text-gray-400 mb-3">
+                  Enter the 6-digit code sent to <strong>{form.email}</strong>.
+                </p>
+                <input
+                  type="text"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  maxLength={6}
+                  placeholder="123456"
+                  className="mb-4 w-full px-4 py-3 rounded-xl bg-white/10 border border-gray-700/50 text-white focus:outline-none"
+                />
+              </>
+            )}
+
+            {error && (
+              <div className="mb-4 bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg px-4 py-2 text-sm">
+                {error}
+              </div>
+            )}
+
+            <button
+              onClick={handleVerifyCode}
+              disabled={verifying}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition"
+            >
+              {verifying ? 'Verifying...' : 'Verify & Continue'}
+            </button>
+
+            <button
+              className="absolute top-2 right-2 text-white hover:text-gray-300"
+              onClick={() => setShowModal(false)}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

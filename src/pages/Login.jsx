@@ -49,7 +49,7 @@ const Login = () => {
       localStorage.setItem('refresh_token', refresh);
 
       // Redirect on success
-      navigate('/dashboard');
+      navigate('/');
     } catch (err) {
       console.error('Login error:', err);
       setError(err.message);
@@ -84,7 +84,7 @@ const Login = () => {
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-2 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
           Welcome Back
         </h2>
-        <p className="text-gray-400 text-center mb-6">Sign in to your Trinetra account</p>
+        <p className="text-gray-400 text-center mb-6">Sign in to your CampusEye account</p>
 
         {/* Google Sign-In */}
         <button
@@ -157,7 +157,7 @@ const Login = () => {
 
         <div className="mt-6 text-center text-gray-400 text-sm">
           Don't have an account?{' '}
-          <Link to="/signup" className="text-blue-400 hover:underline">Sign up</Link>
+          <Link to="/email-verification" className="text-blue-400 hover:underline">Sign up</Link>
         </div>
       </form>
     </div>

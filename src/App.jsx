@@ -3,6 +3,7 @@ import TrinetraLanding from './pages/LandingPage';
 import Login from './pages/Login';
 import Signup from './pages/SignUp';
 import BehaviorDashboard from './pages/BehaviorDashboard';
+import EmailVerification from './components/EmailVerification'
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Route path="/" element={<TrinetraLanding />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/email-verification" element={<EmailVerification />} />
       <Route path="/dashboard" element={<BehaviorDashboard />} />
     </Routes>
   );
