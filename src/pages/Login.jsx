@@ -26,7 +26,7 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await fetch('https://campuseye-backend.onrender.com/api/user/login/', {
+      const response = await fetch('https://campuseye-backend-4dlk.onrender.com/api/user/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ const Login = () => {
       localStorage.setItem('access_token', access);
       localStorage.setItem('refresh_token', refresh);
 
-      navigate('/dashboard');
+      navigate('/');
     } catch (err) {
       setError(err.message);
     } finally {
@@ -59,7 +59,7 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await fetch('https://campuseye-backend.onrender.com/api/user/google-auth/', {
+      const response = await fetch('https://campuseye-backend-4dlk.onrender.com/api/user/google-auth/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id_token }),
@@ -70,7 +70,7 @@ const Login = () => {
       if (data?.token?.access && data?.token?.refresh) {
         localStorage.setItem('access_token', data.token.access);
         localStorage.setItem('refresh_token', data.token.refresh);
-        navigate('/dashboard');
+        navigate('/');
       } else if (response.status === 202 && data?.email) {
         navigate('/signup', { state: { email: data.email } });
       } else {

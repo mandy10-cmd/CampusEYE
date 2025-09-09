@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { AuthProvider } from './context/AuthContext'; // ✅ make sure it's .jsx now
 import App from "./App";
 import "./index.css";
 
@@ -11,7 +12,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <GoogleOAuthProvider clientId={clientId}>
-        <App />
+        <AuthProvider> {/* ✅ Wrap App in Auth Context */}
+          <App />
+        </AuthProvider>
       </GoogleOAuthProvider>
     </BrowserRouter>
   </React.StrictMode>

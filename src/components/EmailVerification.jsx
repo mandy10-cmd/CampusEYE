@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MailCheck, ShieldCheck } from "lucide-react";
-import { sendVerificationCode, verifyCode } from "../api"; // Ensure correct relative path
 
 const EmailVerification = () => {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
-  const [step, setStep] = useState("enterEmail"); // "enterCode"
+  const [step, setStep] = useState("enterEmail");
   const [verifying, setVerifying] = useState(false);
   const [error, setError] = useState("");
 
@@ -21,10 +20,19 @@ const EmailVerification = () => {
     setError("");
     setVerifying(true);
     try {
-      await sendVerificationCode(email);
-      setStep("enterCode");
+      const response = await fetch("https://campuseye-backend-4dlk.onrender.com/api/user/sendcode/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setStep("enterCode");
+      } else {
+        setError(data?.email?.[0] || data?.detail || "Failed to send code.");
+      }
     } catch (err) {
-      setError(err.message || "Failed to send code. Please try again.");
+      setError("Failed to send code. Please try again.");
     } finally {
       setVerifying(false);
     }
@@ -39,13 +47,22 @@ const EmailVerification = () => {
     setError("");
     setVerifying(true);
     try {
-      await verifyCode(email, code);
-      setEmail("");
-      setCode("");
-      setStep("enterEmail");
-      navigate("/signup", { state: { email } }); // Optional: pass email to signup
+      const response = await fetch("https://campuseye-backend-4dlk.onrender.com/api/user/verifycode/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, code }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setEmail("");
+        setCode("");
+        setStep("enterEmail");
+        navigate("/signup", { state: { email } });
+      } else {
+        setError(data?.detail || "Invalid or expired code.");
+      }
     } catch (err) {
-      setError(err.message || "Verification failed. Please try again.");
+      setError("Verification failed. Please try again.");
     } finally {
       setVerifying(false);
     }
@@ -75,9 +92,7 @@ const EmailVerification = () => {
         </p>
 
         {error && (
-          <div className="mb-4 text-red-400 text-sm bg-red-500/10 border border-red-400/30 px-4 py-2 rounded-lg">
-            {error}
-          </div>
+          <div className="mb-4 text-red-400 text-sm bg-red-500/10 border border-red-400/30 px-4 py-2 rounded-lg">{error}</div>
         )}
 
         {step === "enterEmail" ? (
@@ -92,6 +107,7 @@ const EmailVerification = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 mb-4 bg-white/10 border border-gray-600 rounded-lg focus:outline-none text-white placeholder-gray-400"
+              disabled={verifying}
             />
             <button
               onClick={handleSendCode}
@@ -114,6 +130,7 @@ const EmailVerification = () => {
               value={code}
               onChange={(e) => setCode(e.target.value)}
               className="w-full px-4 py-3 mb-4 bg-white/10 border border-gray-600 rounded-lg focus:outline-none text-white placeholder-gray-400"
+              disabled={verifying}
             />
             <button
               onClick={handleVerifyCode}
@@ -133,6 +150,7 @@ const EmailVerification = () => {
             setCode("");
             setError("");
           }}
+          disabled={verifying}
         >
           {step === "enterCode" ? "← Go Back to Email" : "Cancel"}
         </button>

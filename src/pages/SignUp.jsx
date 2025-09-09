@@ -1,18 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { Eye, ChevronRight } from "lucide-react";
-import { registerUser } from "../api"; // make sure this exists and is imported correctly
 
 const Signup = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Pre-fill email from EmailVerification
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
     college: "",
-    email: location.state?.email || "", // <- comes from EmailVerification
+    email: location.state?.email || "",
     password: "",
     password2: "",
   });
@@ -20,8 +18,15 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // ✅ Ensure email comes from EmailVerification
+  useEffect(() => {
+    if (!location.state?.email) {
+      navigate("/email-verification");
+    }
+  }, [location.state, navigate]);
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e) => {
@@ -43,23 +48,38 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      await registerUser(form); // Backend API call
+      const res = await fetch(
+        "https://campuseye-backend-4dlk.onrender.com/api/user/completeregistration/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ first_name, last_name, college, email, password, password2 }),
+        }
+      );
+
+      const contentType = res.headers.get("content-type");
+      const text = await res.text();
+
+      if (!res.ok) {
+        if (contentType && contentType.includes("application/json")) {
+          const json = JSON.parse(text);
+          throw new Error(json?.detail || "Signup failed.");
+        } else {
+          throw new Error("Unexpected server error. Try again later.");
+        }
+      }
+
+      // ✅ Success
       navigate("/login");
     } catch (err) {
-      setError(err.message || "Something went wrong.");
+      setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center relative overflow-hidden">
-      <div className="fixed inset-0 opacity-30 pointer-events-none">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-40 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
-      </div>
-
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
       <form
         onSubmit={handleSubmit}
         className="relative z-10 bg-black/60 backdrop-blur-2xl rounded-3xl p-8 md:p-12 w-full max-w-md border border-gray-700/50 shadow-2xl"
@@ -71,11 +91,11 @@ const Signup = () => {
         </div>
 
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-2 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
-          Create Your Account
+          Complete Your Account
         </h2>
 
         <p className="text-gray-400 text-center mb-6">
-          Sign up to get started with CampusEye
+          Just a few more details to finish your signup
         </p>
 
         {error && (
@@ -112,7 +132,7 @@ const Signup = () => {
         </div>
 
         <div className="mb-3">
-          <label className="text-gray-300 mb-1 block">College Name</label>
+          <label className="text-gray-300 mb-1 block">College</label>
           <input
             name="college"
             type="text"
@@ -155,7 +175,7 @@ const Signup = () => {
           className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-3 rounded-xl font-medium transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
           disabled={loading}
         >
-          {loading ? "Creating Account..." : "Sign Up"}
+          {loading ? "Creating account..." : "Sign Up"}
           <ChevronRight className="w-5 h-5" />
         </button>
 
