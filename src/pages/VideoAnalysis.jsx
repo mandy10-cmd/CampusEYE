@@ -1,14 +1,43 @@
 import React, { useState } from 'react';
 import { Bell, User, Upload } from 'lucide-react';
+import { Link } from 'react-router-dom'; // ✅ Import Link for routing
 
 const VideoAnalysis = () => {
-  const [uploadProgress, setUploadProgress] = useState(60);
-  const [analysisResults] = useState([
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [fileName, setFileName] = useState('');
+  const [analysisResults, setAnalysisResults] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const mockAnalysisData = [
     { timestamp: '00:05 - 00:11', action: 'Standing', falseAction: true },
     { timestamp: '00:12 - 00:19', action: 'Talking', falseAction: false },
     { timestamp: '00:20 - 00:57', action: 'Fighting', falseAction: false },
     { timestamp: '00:58 - 01:05', action: 'Running', falseAction: false }
-  ]);
+  ];
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setFileName(file.name);
+    setIsUploading(true);
+    setUploadProgress(0);
+    setAnalysisResults([]);
+
+    const simulateProgress = () => {
+      setUploadProgress((prev) => {
+        if (prev < 100) {
+          setTimeout(simulateProgress, 100);
+          return prev + 5;
+        } else {
+          setIsUploading(false);
+          setAnalysisResults(mockAnalysisData);
+          return 100;
+        }
+      });
+    };
+
+    simulateProgress();
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
@@ -17,10 +46,24 @@ const VideoAnalysis = () => {
         <div className="flex items-center space-x-8">
           <h1 className="text-2xl font-bold">CampusEye</h1>
           <nav className="flex space-x-6">
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">Home</a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">Live Dashboard</a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">Analysis</a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">Contact</a>
+            <Link
+              to="/"
+              className="text-gray-300 hover:text-white transition-colors"
+            >
+              Home
+            </Link>
+
+            {/* ✅ Link to Realtime CCTV page */}
+            <Link
+              to="/realtime"
+              className="text-gray-300 hover:text-white transition-colors"
+            >
+              Live Dashboard
+            </Link>
+
+            <a href="#" className="text-gray-300 hover:text-white transition-colors">
+              Analysis
+            </a>
           </nav>
         </div>
         <div className="flex items-center space-x-4">
@@ -40,57 +83,75 @@ const VideoAnalysis = () => {
         <main className="flex-1 p-8">
           <div className="max-w-4xl">
             <h2 className="text-3xl font-bold mb-2">Upload Video for Analysis</h2>
-            <p className="text-gray-400 mb-8">Upload your video to get detailed insights on timestamps and false actions.</p>
+            <p className="text-gray-400 mb-8">
+              Upload your video to get detailed insights on timestamps and false actions.
+            </p>
 
-            {/* Upload */}
-            <div className="border-2 border-dashed border-gray-600 rounded-lg p-12 mb-8 text-center">
-              <div className="text-lg mb-2">Drag and drop a video here, or</div>
-              <div className="text-gray-400 mb-4">Browse Files</div>
-              <button className="bg-gray-700 hover:bg-gray-600 px-6 py-2 rounded-lg transition-colors flex items-center space-x-2 mx-auto">
-                <Upload className="w-4 h-4" />
-                <span>Upload Video</span>
-              </button>
+            {/* Upload Area */}
+            <div className="border-2 border-dashed border-gray-600 rounded-lg p-12 mb-8 text-center relative">
+              <input
+                type="file"
+                accept="video/*"
+                className="opacity-0 absolute inset-0 cursor-pointer"
+                onChange={handleFileUpload}
+                disabled={isUploading}
+              />
+              <div className="flex flex-col items-center">
+                <div className="text-lg mb-2">Drag and drop a video here or click to select</div>
+                {fileName && <div className="text-gray-400 mb-2">Selected: {fileName}</div>}
+                <div className="bg-gray-700 hover:bg-gray-600 px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
+                  <Upload className="w-4 h-4" />
+                  <span>Upload Video</span>
+                </div>
+              </div>
             </div>
 
             {/* Upload Progress */}
-            <div className="mb-8">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-white">Uploading...</span>
-                <span className="text-gray-400">{uploadProgress}% complete</span>
-              </div>
-              <div className="w-full bg-gray-700 rounded-full h-2">
-                <div
-                  className="bg-white h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${uploadProgress}%` }}
-                ></div>
-              </div>
-            </div>
-
-            {/* Results */}
-            <div>
-              <h3 className="text-2xl font-bold mb-6">Analysis Results</h3>
-              <div className="bg-gray-800 rounded-lg overflow-hidden">
-                <div className="grid grid-cols-3 gap-4 p-4 bg-gray-700 border-b border-gray-600 font-medium">
-                  <div>Timestamp</div>
-                  <div>Action</div>
-                  <div>False Action</div>
+            {isUploading && (
+              <div className="mb-8">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-white">Uploading...</span>
+                  <span className="text-gray-400">{uploadProgress}% complete</span>
                 </div>
-                {analysisResults.map((result, index) => (
-                  <div key={index} className="grid grid-cols-3 gap-4 p-4 border-b border-gray-700 last:border-b-0 text-gray-300">
-                    <div>{result.timestamp}</div>
-                    <div>{result.action}</div>
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        checked={result.falseAction}
-                        readOnly
-                        className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-500"
-                      />
-                    </div>
-                  </div>
-                ))}
+                <div className="w-full bg-gray-700 rounded-full h-2">
+                  <div
+                    className="bg-white h-2 rounded-full transition-all duration-300"
+                    style={{ width: `${uploadProgress}%` }}
+                  ></div>
+                </div>
               </div>
-            </div>
+            )}
+
+            {/* Analysis Results */}
+            {analysisResults.length > 0 && (
+              <div>
+                <h3 className="text-2xl font-bold mb-6">Analysis Results</h3>
+                <div className="bg-gray-800 rounded-lg overflow-hidden">
+                  <div className="grid grid-cols-3 gap-4 p-4 bg-gray-700 border-b border-gray-600 font-medium">
+                    <div>Timestamp</div>
+                    <div>Action</div>
+                    <div>False Action</div>
+                  </div>
+                  {analysisResults.map((result, index) => (
+                    <div
+                      key={index}
+                      className="grid grid-cols-3 gap-4 p-4 border-b border-gray-700 last:border-b-0 text-gray-300"
+                    >
+                      <div>{result.timestamp}</div>
+                      <div>{result.action}</div>
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          checked={result.falseAction}
+                          readOnly
+                          className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-500"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </main>
       </div>

@@ -2,10 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaLaptopCode, FaDatabase, FaBrain, FaCloud, FaShieldAlt } from 'react-icons/fa';
 import { LuCamera } from "react-icons/lu";
+import NavBar from '../components/NavBar'; // ✅ Import your custom navbar
 
 const heroImage = "https://media.istockphoto.com/id/473326392/photo/video-security-camera-housing-mounted-high-on-college-campus.jpg?s=612x612&w=0&k=20&c=xbYdQkuvYWHZc1hc77j1EHz42GmfEKy6xuEhJnGVN-4=";
 
 const LandingPage = () => {
+    // ✅ Check login status
+    const isLoggedIn = !!localStorage.getItem("access_token");
+
     const features = [
         {
             icon: <FaShieldAlt />,
@@ -51,23 +55,7 @@ const LandingPage = () => {
 
     return (
         <div className="text-white font-sans min-h-screen bg-slate-900">
-            <header className="flex justify-between items-center p-6 bg-slate-900 fixed w-full z-50 shadow-md">
-                <div className="text-2xl font-bold">CampusEye</div>
-                <nav className="flex space-x-6 items-center">
-                    <a href="#" className="hover:text-blue-400">Home</a>
-                    <a href="#features" className="hover:text-blue-400">Features</a>
-                    <a href="#dashboard" className="hover:text-blue-400">Dashboard</a>
-                    <a href="#contact" className="hover:text-blue-400">Contact</a>
-                </nav>
-                <div className="flex space-x-4">
-                    <Link to="/login">
-                        <button className="bg-blue-600 py-2 px-4 rounded-full hover:bg-blue-700">Login</button>
-                    </Link>
-                    <Link to="/email-verification">
-                        <button className="bg-blue-600 py-2 px-4 rounded-full hover:bg-blue-700">Sign Up</button>
-                    </Link>
-                </div>
-            </header>
+            <NavBar />
 
             <main className="pt-20">
                 {/* Hero */}
@@ -81,11 +69,14 @@ const LandingPage = () => {
                         <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-6">
                             A proactive AI-driven surveillance platform for smarter campus security.
                         </p>
-                        <Link to="/email-verification">
-                            <button className="bg-blue-600 hover:bg-blue-700 py-3 px-8 rounded-full transition-colors">
-                                Get Started
-                            </button>
-                        </Link>
+                        {/* ✅ Only show Get Started if NOT logged in */}
+                        {!isLoggedIn && (
+                            <Link to="/email-verification">
+                                <button className="bg-blue-600 hover:bg-blue-700 py-3 px-8 rounded-full transition-colors">
+                                    Get Started
+                                </button>
+                            </Link>
+                        )}
                     </div>
                 </section>
 
@@ -115,10 +106,55 @@ const LandingPage = () => {
                     </div>
                 </section>
 
-                {/* Dashboard */}
+                  {/* Dashboard Section */}
                 <section id="dashboard" className="py-20 px-4 max-w-7xl mx-auto">
-                    ...
-                    {/* Keep your current dashboard section unchanged */}
+                    <h2 className="text-3xl font-bold text-center mb-12">Dashboard</h2>
+                    <div className="bg-slate-800 rounded-xl shadow-lg p-6 flex flex-col lg:flex-row gap-6">
+                        {/* Left Column - Dashboard Content */}
+                        <div className="lg:w-3/4">
+                            <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
+                                <h3 className="text-xl font-semibold">Trinetra AI Dashboard</h3>
+                                <div className="flex space-x-2 text-gray-400 text-sm">
+                                    <span>4 Cameras Active</span>
+                                    <div className="flex space-x-1 items-center">
+                                        <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                                        <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                                        <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {[1, 2, 3, 4].map(camera => (
+                                    <div key={camera} className="bg-slate-900 p-4 rounded-lg flex flex-col items-center justify-center h-48">
+                                        <div className="text-gray-600 text-6xl"><LuCamera /></div>
+                                        <p className="text-gray-400 mt-2">Camera {camera}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Right Column - Recent Alerts */}
+                        <div className="lg:w-1/4">
+                            <h3 className="text-xl font-semibold mb-4">Recent Alerts</h3>
+                            <div className="space-y-4">
+                                {/* Alert Card 1 */}
+                                <div className="bg-red-700 p-4 rounded-lg">
+                                    <p className="font-semibold text-white">Motion Detected - Camera 2</p>
+                                    <p className="text-sm text-gray-200">2 min ago</p>
+                                </div>
+                                {/* Alert Card 2 */}
+                                <div className="bg-yellow-700 p-4 rounded-lg">
+                                    <p className="font-semibold text-white">Camera Offline - Camera 3</p>
+                                    <p className="text-sm text-gray-200">5 min ago</p>
+                                </div>
+                                {/* Alert Card 3 */}
+                                <div className="bg-blue-700 p-4 rounded-lg">
+                                    <p className="font-semibold text-white">Intruder Detected</p>
+                                    <p className="text-sm text-gray-200">10 min ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 {/* Tech Stack */}
@@ -138,7 +174,10 @@ const LandingPage = () => {
                 <section id="contact" className="py-16 px-4 max-w-7xl mx-auto text-center">
                     <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
                     <p className="text-gray-400 mb-2">
-                        Email us at <a href="mailto:support@campuseye.com" className="text-blue-400 hover:underline">support@campuseye.com</a>
+                        Email us at{" "}
+                        <a href="mailto:support@campuseye.com" className="text-blue-400 hover:underline">
+                            support@campuseye.com
+                        </a>
                     </p>
                 </section>
 
