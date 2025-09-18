@@ -26,7 +26,7 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await fetch('https://campuseye-backend-4dlk.onrender.com/api/user/login/', {
+      const response = await fetch('http://127.0.0.1:8000/api/user/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await fetch('https://campuseye-backend-4dlk.onrender.com/api/user/google-auth/', {
+      const response = await fetch('http://127.0.0.1:8000/api/user/google-auth/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id_token }),
