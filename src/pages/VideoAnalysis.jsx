@@ -74,7 +74,7 @@ const VideoAnalysis = () => {
     }
   };
 
-  /* ───────────────────────────────────────── Handle streaming response */
+  /*Handle streaming response */
   const handleStreamingResponse = async (response) => {
     if (!response.body) {
       throw new Error('Streaming not supported by browser');
@@ -100,7 +100,7 @@ const VideoAnalysis = () => {
         
         // Process complete lines (newline-delimited JSON)
         const lines = buffer.split('\n');
-        buffer = lines.pop() || ''; // Keep incomplete line in buffer
+        buffer = lines.pop() || ''; 
 
         for (const line of lines) {
           if (line.trim()) {
@@ -124,7 +124,7 @@ const VideoAnalysis = () => {
     }
   };
 
-  /* ───────────────────────────────────────── Handle individual stream messages */
+  
   const handleStreamMessage = (message) => {
     console.log('Stream message:', message);
 
@@ -171,7 +171,7 @@ const VideoAnalysis = () => {
     }
   };
 
-  /* ───────────────────────────────────────── Cancel streaming */
+  
   const cancelAnalysis = () => {
     if (readerRef.current) {
       readerRef.current.cancel();
@@ -183,12 +183,12 @@ const VideoAnalysis = () => {
     setStreamStatus('Analysis cancelled');
   };
 
-  /* ───────────────────────────────────────── Get alert count */
+  
   const getAlertCount = () => {
     return results.filter(r => r.fight_or_tampering === 'Yes').length;
   };
 
-  /* ───────────────────────────────────────── Render component */
+  
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Header */}

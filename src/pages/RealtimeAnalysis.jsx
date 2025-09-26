@@ -115,7 +115,7 @@ const RealtimeAnalysis = () => {
       </header>
 
       {/* Video Feed */}
-      <div className="max-w-4xl mx-auto mb-8 mt-7">
+      <div className="max-w-4xl mx-auto mb-8 mt-7,">
         <div className="relative bg-gray-800 rounded-xl overflow-hidden shadow-xl h-[400px] flex items-center justify-center">
           {isCameraOnline ? (
             <video
