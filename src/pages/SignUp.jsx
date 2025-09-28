@@ -18,7 +18,7 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // ✅ Ensure email comes from EmailVerification
+  
   useEffect(() => {
     if (!location.state?.email) {
       navigate("/email-verification");
@@ -49,7 +49,7 @@ const Signup = () => {
 
     try {
       const res = await fetch(
-        "https://campuseye-backend-4dlk.onrender.com/api/user/completeregistration/",
+        "http://127.0.0.1:8000/api/user/completeregistration/",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

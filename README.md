@@ -1,12 +1,41 @@
-# React + Vite
+# CampusEYE
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+CampusEYE is a modern web application built with **React + Vite** and styled using **Tailwind CSS**. It provides a fast development experience with Hot Module Replacement (HMR), ESLint integration, and a scalable structure suitable for future enhancements.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- ⚡ Lightning-fast dev server with **Vite**
+- 🔄 Hot Module Replacement (HMR)
+- 🎨 Styling with **Tailwind CSS**
+- ✅ Code linting with **ESLint**
+- 📱 Responsive UI components
+- 🛠️ Scalable project structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Tech Stack
+
+- **React** (Frontend UI)
+- **Vite** (Build & Dev Server)
+- **Tailwind CSS** (Styling)
+- **ESLint** (Code quality)
+- **Node.js & npm** (Tooling)
+
+---
+
+## 📂 Project Structure
+
+CampusEYE/
+├── public/ # Static assets
+├── src/ # Application source
+│ ├── components/ # Reusable UI components
+│ ├── pages/ # Page-level components
+│ ├── App.jsx # Root component
+│ └── main.jsx # Entry point
+├── package.json # Dependencies & scripts
+├── vite.config.js # Vite configuration
+├── tailwind.config.js # Tailwind configuration
+├── eslint.config.js # ESLint rules
+└── README.md # Project documentation
