@@ -7,7 +7,6 @@ import EmailVerification from './components/EmailVerification';
 import VideoAnalysis from './pages/VideoAnalysis';
 import Account from './pages/Account'; 
 import RealtimeAnalysis from './pages/RealtimeAnalysis';
-
 import PrivateRoute from './routes/PrivateRoute';
 
 function App() {

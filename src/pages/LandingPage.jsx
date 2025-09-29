@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { FaLaptopCode, FaDatabase, FaBrain, FaCloud, FaShieldAlt } from 'react-icons/fa';
 import { LuCamera } from "react-icons/lu";
 import NavBar from '../components/NavBar'; // ✅ Import your custom navbar
@@ -7,15 +6,13 @@ import NavBar from '../components/NavBar'; // ✅ Import your custom navbar
 const heroImage = "https://media.istockphoto.com/id/473326392/photo/video-security-camera-housing-mounted-high-on-college-campus.jpg?s=612x612&w=0&k=20&c=xbYdQkuvYWHZc1hc77j1EHz42GmfEKy6xuEhJnGVN-4=";
 
 const LandingPage = () => {
-    // ✅ Check login status
-    const isLoggedIn = !!localStorage.getItem("access_token");
+    const isLoggedIn = !!localStorage.getItem("access_token"); // ✅ Check login status
 
     const features = [
         {
             icon: <FaShieldAlt />,
             title: "Real-time Video Analysis",
-            description: "Analyze live video feeds for anomalies and trigger alerts instantly.",
-            link: "/videoanalysis"
+            description: "Analyze live video feeds for anomalies and trigger alerts instantly."
         },
         {
             icon: <FaLaptopCode />,
@@ -69,13 +66,14 @@ const LandingPage = () => {
                         <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-6">
                             A proactive AI-driven surveillance platform for smarter campus security.
                         </p>
-                        {/* ✅ Only show Get Started if NOT logged in */}
+
+                        {/* ✅ Show Get Started ONLY for guests */}
                         {!isLoggedIn && (
-                            <Link to="/email-verification">
+                            <a href="/email-verification">
                                 <button className="bg-blue-600 hover:bg-blue-700 py-3 px-8 rounded-full transition-colors">
                                     Get Started
                                 </button>
-                            </Link>
+                            </a>
                         )}
                     </div>
                 </section>
@@ -85,32 +83,19 @@ const LandingPage = () => {
                     <h2 className="text-3xl font-bold text-center mb-12">Features</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {features.map((f, i) => (
-                            <div key={i}>
-                                {f.link ? (
-                                    <Link to={f.link}>
-                                        <div className="bg-slate-800 p-6 rounded-xl hover:bg-slate-700 transition-colors shadow-md">
-                                            <div className="text-blue-400 text-3xl mb-4">{f.icon}</div>
-                                            <h3 className="text-xl font-semibold mb-2">{f.title}</h3>
-                                            <p className="text-gray-400">{f.description}</p>
-                                        </div>
-                                    </Link>
-                                ) : (
-                                    <div className="bg-slate-800 p-6 rounded-xl shadow-md hover:bg-slate-700">
-                                        <div className="text-blue-400 text-3xl mb-4">{f.icon}</div>
-                                        <h3 className="text-xl font-semibold mb-2">{f.title}</h3>
-                                        <p className="text-gray-400">{f.description}</p>
-                                    </div>
-                                )}
+                            <div key={i} className="bg-slate-800 p-6 rounded-xl shadow-md hover:bg-slate-700 transition-colors">
+                                <div className="text-blue-400 text-3xl mb-4">{f.icon}</div>
+                                <h3 className="text-xl font-semibold mb-2">{f.title}</h3>
+                                <p className="text-gray-400">{f.description}</p>
                             </div>
                         ))}
                     </div>
                 </section>
 
-                  {/* Dashboard Section */}
+                {/* Dashboard Section */}
                 <section id="dashboard" className="py-20 px-4 max-w-7xl mx-auto">
                     <h2 className="text-3xl font-bold text-center mb-12">Dashboard</h2>
                     <div className="bg-slate-800 rounded-xl shadow-lg p-6 flex flex-col lg:flex-row gap-6">
-                        {/* Left Column - Dashboard Content */}
                         <div className="lg:w-3/4">
                             <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
                                 <h3 className="text-xl font-semibold">Trinetra AI Dashboard</h3>
@@ -133,21 +118,17 @@ const LandingPage = () => {
                             </div>
                         </div>
 
-                        {/* Right Column - Recent Alerts */}
                         <div className="lg:w-1/4">
                             <h3 className="text-xl font-semibold mb-4">Recent Alerts</h3>
                             <div className="space-y-4">
-                                {/* Alert Card 1 */}
                                 <div className="bg-red-700 p-4 rounded-lg">
                                     <p className="font-semibold text-white">Motion Detected - Camera 2</p>
                                     <p className="text-sm text-gray-200">2 min ago</p>
                                 </div>
-                                {/* Alert Card 2 */}
                                 <div className="bg-yellow-700 p-4 rounded-lg">
                                     <p className="font-semibold text-white">Camera Offline - Camera 3</p>
                                     <p className="text-sm text-gray-200">5 min ago</p>
                                 </div>
-                                {/* Alert Card 3 */}
                                 <div className="bg-blue-700 p-4 rounded-lg">
                                     <p className="font-semibold text-white">Intruder Detected</p>
                                     <p className="text-sm text-gray-200">10 min ago</p>
